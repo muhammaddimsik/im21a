@@ -11,6 +11,7 @@ import axios from "axios";
 import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useAuthStore } from "@/store/AuthStore";
 
 const index = () => {
   const [email, setEmail] = useState<string>("");
@@ -18,6 +19,8 @@ const index = () => {
 
   const [isShow, setIsShow] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { setAccessToken } = useAuthStore();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -27,6 +30,7 @@ const index = () => {
         password: password,
       });
 
+      setAccessToken(res.data.access_token);
       router.push("/product");
     } catch (error) {
       console.log(error);
